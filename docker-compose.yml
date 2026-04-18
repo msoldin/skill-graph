@@ -23,7 +23,7 @@ services:
       QUARKUS_DATASOURCE_PASSWORD: ${POSTGRES_PASSWORD:-skill_graph}
       CONTENT_ROOT: /app/content
     volumes:
-      - ./content:/app/content:ro
+      - .backend/content:/app/content:ro
     depends_on:
       db:
         condition: service_healthy

@@ -13,6 +13,7 @@ import jakarta.inject.Inject;
 
 import java.util.Comparator;
 import java.util.List;
+import java.util.Objects;
 
 @ApplicationScoped
 public class GetRoadmapTopicContentService {
@@ -27,7 +28,7 @@ public class GetRoadmapTopicContentService {
         List<TopicAsset> assets = topicContentRepository.listAssets(roadmapTopic.roadmapTopicId()).stream()
             .sorted(Comparator.comparingInt(RoadmapTopicAssetRecord::sortOrder).thenComparing(RoadmapTopicAssetRecord::title, String.CASE_INSENSITIVE_ORDER))
             .map(this::toAsset)
-            .filter(asset -> asset != null)
+            .filter(Objects::nonNull)
             .toList();
 
         return new TopicContentResponse(

@@ -14,9 +14,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @ApplicationScoped
 public class RoadmapRepository {
+    private static final Set<String> SUPPORTED_GRAPH_ASSET_TYPES = Set.of("markdown", "pdf");
+
     private static final String FIND_ROADMAP = """
         select id, slug, title, description
         from roadmaps
@@ -97,7 +100,7 @@ public class RoadmapRepository {
                         getNullableDouble(resultSet, "y"),
                         resultSet.getString("group_key"),
                         resultSet.getBoolean("is_entrypoint"),
-                        parseAssetTypes(resultSet.getString("asset_types"))
+                        parseSupportedAssetTypes(resultSet.getString("asset_types"))
                     ));
                 }
                 return topics;
@@ -128,12 +131,13 @@ public class RoadmapRepository {
         }
     }
 
-    private List<String> parseAssetTypes(String csv) {
+    static List<String> parseSupportedAssetTypes(String csv) {
         if (csv == null || csv.isBlank()) {
             return List.of();
         }
         return Arrays.stream(csv.split(","))
             .map(String::trim)
+            .filter(SUPPORTED_GRAPH_ASSET_TYPES::contains)
             .filter(value -> !value.isEmpty())
             .toList();
     }

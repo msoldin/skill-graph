@@ -37,7 +37,7 @@ export function TopicContent({ assets }: { assets: TopicAsset[] }) {
             <article key={asset.id} style={{ background: "rgba(15, 23, 42, 0.72)", border: "1px solid rgba(148, 163, 184, 0.18)", borderRadius: 24, padding: 24 }}>
               <div style={{ color: "#34d399", fontSize: 12, textTransform: "uppercase", letterSpacing: 0.6 }}>PDF</div>
               <h2 style={{ marginBottom: 10 }}>{asset.title}</h2>
-              <a href={`${process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://localhost:8080"}${asset.url}`} target="_blank" rel="noreferrer" style={{ color: "#e2e8f0", textDecoration: "underline" }}>
+              <a href={asset.url} target="_blank" rel="noreferrer" style={{ color: "#e2e8f0", textDecoration: "underline" }}>
                 Open PDF asset
               </a>
             </article>

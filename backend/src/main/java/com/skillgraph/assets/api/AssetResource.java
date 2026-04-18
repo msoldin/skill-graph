@@ -31,8 +31,8 @@ public class AssetResource {
         }
 
         var resolved = filesystemAssetReader.resolve(asset.filePath());
-        return Response.ok(resolved.toFile(), MediaType.APPLICATION_OCTET_STREAM_TYPE)
-            .header(HttpHeaders.CONTENT_TYPE, "application/pdf")
+        return Response.ok(resolved.toFile())
+            .type("application/pdf")
             .header(HttpHeaders.CONTENT_DISPOSITION, "inline; filename=\"" + asset.title().replace(' ', '-') + ".pdf\"")
             .build();
     }

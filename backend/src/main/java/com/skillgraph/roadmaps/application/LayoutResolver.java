@@ -35,9 +35,6 @@ public class LayoutResolver {
         }
 
         for (RoadmapEdgeRecord edge : edges) {
-            if (!"prerequisite".equals(edge.edgeType())) {
-                continue;
-            }
             if (!topicsById.containsKey(edge.sourceRoadmapTopicId()) || !topicsById.containsKey(edge.targetRoadmapTopicId())) {
                 continue;
             }

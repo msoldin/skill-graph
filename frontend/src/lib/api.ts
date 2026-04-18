@@ -9,12 +9,16 @@ export class ApiError extends Error {
   }
 }
 
-function getApiBaseUrl() {
-  if (typeof window === "undefined") {
-    return process.env.BACKEND_BASE_URL ?? "http://localhost:8080";
+export function resolveApiBaseUrl(isBrowser: boolean, backendBaseUrl?: string) {
+  if (isBrowser) {
+    return "";
   }
 
-  return process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://localhost:8080";
+  return backendBaseUrl ?? "http://localhost:8080";
+}
+
+function getApiBaseUrl() {
+  return resolveApiBaseUrl(typeof window !== "undefined", process.env.BACKEND_BASE_URL);
 }
 
 async function request<T>(path: string, init?: RequestInit): Promise<T> {

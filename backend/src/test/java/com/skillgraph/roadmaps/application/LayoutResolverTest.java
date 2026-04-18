@@ -32,4 +32,22 @@ class LayoutResolverTest {
         assertEquals(new Position(460.0, 120.0), positions.get(102L));
         assertEquals(new Position(780.0, 120.0), positions.get(103L));
     }
+
+    @Test
+    void includesNonPrerequisiteEdgesWhenBuildingFallbackLayers() {
+        List<RoadmapTopicRecord> topics = List.of(
+            new RoadmapTopicRecord(101, "http-basics", "HTTP Basics", "HTTP Basics", 140.0, 120.0, "foundations", true, List.of("markdown")),
+            new RoadmapTopicRecord(105, "quarkus-basics", "Quarkus Basics", "Quarkus Basics", null, null, "framework", false, List.of("markdown")),
+            new RoadmapTopicRecord(106, "testing-strategies", "Testing Strategies", "Testing Strategies", null, null, "quality", false, List.of("markdown"))
+        );
+
+        List<RoadmapEdgeRecord> edges = List.of(
+            new RoadmapEdgeRecord(1, 101, 105, "prerequisite"),
+            new RoadmapEdgeRecord(2, 105, 106, "recommended")
+        );
+
+        Map<Long, Position> positions = layoutResolver.resolve(topics, edges);
+
+        assertEquals(new Position(780.0, 120.0), positions.get(106L));
+    }
 }

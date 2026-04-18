@@ -25,3 +25,13 @@ replay_pid*
 
 # Local git worktrees
 .worktrees/
+
+# Node / Next
+frontend/node_modules/
+frontend/.next/
+
+# Java build output
+backend/target/
+
+# Environment files
+.env

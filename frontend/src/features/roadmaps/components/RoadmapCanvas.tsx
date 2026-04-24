@@ -32,13 +32,13 @@ const nodeTypes = { topic: TopicNode };
 function edgeStyle(relationship: string): React.CSSProperties {
   switch (relationship) {
     case "prerequisite":
-      return { stroke: "#3b82f6", strokeWidth: 2 };
+      return { stroke: "#3b82f6", strokeWidth: 2.5 };
     case "related":
-      return { stroke: "#8b5cf6", strokeWidth: 1.5, strokeDasharray: "5 3" };
+      return { stroke: "#8b5cf6", strokeWidth: 2, strokeDasharray: "5 3" };
     case "recommended":
-      return { stroke: "#10b981", strokeWidth: 2 };
+      return { stroke: "#10b981", strokeWidth: 2.5 };
     default:
-      return { stroke: "#9ca3af", strokeWidth: 1.5 };
+      return { stroke: "#9ca3af", strokeWidth: 2 };
   }
 }
 
@@ -54,7 +54,7 @@ function toEdge(edge: GraphEdge): Edge {
     type: "default",
     data: edge.data,
     animated: false,
-    markerEnd: { type: MarkerType.ArrowClosed },
+    markerEnd: { type: MarkerType.ArrowClosed, width: 10, height: 10 },
     style: edgeStyle(edge.data.relationship),
   };
 }
@@ -101,10 +101,10 @@ function CanvasHeader({ roadmap, firstNode, onOpenTopic }: CanvasHeaderProps) {
   }, [firstNode, fitView, onOpenTopic]);
 
   return (
-    <div className="absolute top-6 left-6 z-30 w-72 bg-white/[.82] backdrop-blur-md border border-gray-200/60 rounded-2xl shadow-sm px-5 py-4 pointer-events-auto">
+    <div className="absolute top-6 left-6 z-30 w-72 bg-white/90 backdrop-blur-md border border-gray-300/70 rounded-2xl shadow-sm px-5 py-4 pointer-events-auto">
       <Link
         href="/roadmaps"
-        className="text-xs text-gray-400 hover:text-gray-600 transition-colors"
+        className="text-xs text-gray-500 hover:text-gray-700 transition-colors"
       >
         ← All Roadmaps
       </Link>
@@ -249,7 +249,7 @@ export function RoadmapCanvas({
             onNodeClick={(_, node) => openTopic(node.data.topicSlug)}
             proOptions={{ hideAttribution: true }}
           >
-            <Background color="#0000001a" gap={28} size={1.2} />
+            <Background color="#00000026" gap={28} size={1.4} />
             <Controls showInteractive={false} />
           </ReactFlow>
         )}

@@ -16,6 +16,10 @@ body {
   min-height: 100%;
 }
 
+.dark body {
+  background: #0c0a09;
+}
+
 a {
   color: inherit;
   text-decoration: none;
@@ -31,4 +35,14 @@ a {
 .catalog-card:hover {
   box-shadow: 0 6px 24px rgba(0, 0, 0, 0.15);
   transform: translateY(-1px);
+}
+
+.dark .topic-node,
+.dark .catalog-card {
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.40);
+}
+
+.dark .topic-node:hover,
+.dark .catalog-card:hover {
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.55);
 }

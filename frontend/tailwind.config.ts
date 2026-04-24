@@ -6,8 +6,9 @@ export default {
   theme: {
     extend: {
       colors: {
-        canvas: "#fafafa",
+        canvas: "#f0ede8",
         surface: "#ffffff",
+        panel: "#faf9f7",
       },
     },
   },

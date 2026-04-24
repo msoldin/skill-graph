@@ -7,21 +7,31 @@ import { getTopicContent } from "@/lib/api";
 import type { TopicContent as TopicContentType } from "@/lib/types";
 
 type PanelState =
+  | { status: "idle" }
   | { status: "loading" }
   | { status: "error"; message: string }
   | { status: "ready"; content: TopicContentType };
 
 interface TopicPanelProps {
   roadmapSlug: string;
-  topicSlug: string;
+  /** null when panel is closed */
+  topicSlug: string | null;
   onClose: () => void;
+  isOpen: boolean;
 }
 
-export function TopicPanel({ roadmapSlug, topicSlug, onClose }: TopicPanelProps) {
-  const [state, setState] = useState<PanelState>({ status: "loading" });
+export function TopicPanel({
+  roadmapSlug,
+  topicSlug,
+  onClose,
+  isOpen,
+}: TopicPanelProps) {
+  const [state, setState] = useState<PanelState>({ status: "idle" });
   const [retryCount, setRetryCount] = useState(0);
 
   useEffect(() => {
+    if (!topicSlug || !isOpen) return;
+
     let cancelled = false;
     setState({ status: "loading" });
 
@@ -36,69 +46,42 @@ export function TopicPanel({ roadmapSlug, topicSlug, onClose }: TopicPanelProps)
     return () => {
       cancelled = true;
     };
-  }, [roadmapSlug, topicSlug, retryCount]);
+  }, [roadmapSlug, topicSlug, isOpen, retryCount]);
 
   return (
     <aside
-      style={{
-        width: "40%",
-        borderLeft: "1px solid rgba(148, 163, 184, 0.2)",
-        display: "flex",
-        flexDirection: "column",
-        overflow: "hidden",
-        background: "rgba(2, 6, 23, 0.95)",
-      }}
+      className={`absolute top-0 right-0 h-full z-20 w-[480px] max-w-full bg-white border-l border-gray-200 shadow-2xl flex flex-col transition-transform duration-300 ease-in-out ${
+        isOpen ? "translate-x-0" : "translate-x-full"
+      }`}
     >
-      <header
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          padding: "16px 20px",
-          borderBottom: "1px solid rgba(148, 163, 184, 0.15)",
-          flexShrink: 0,
-        }}
-      >
-        <span
-          style={{ color: "#38bdf8", fontSize: 12, textTransform: "uppercase", letterSpacing: 1 }}
-        >
+      {/* Header */}
+      <header className="flex items-center justify-between px-6 py-4 border-b border-gray-100 shrink-0">
+        <span className="text-xs font-medium uppercase tracking-wider text-blue-500">
           Topic
         </span>
         <button
           onClick={onClose}
           aria-label="Close panel"
-          style={{
-            background: "none",
-            border: "none",
-            color: "#94a3b8",
-            cursor: "pointer",
-            fontSize: 20,
-            lineHeight: 1,
-            padding: "2px 6px",
-          }}
+          className="text-gray-400 hover:text-gray-600 transition-colors text-xl leading-none cursor-pointer bg-transparent border-none p-1"
         >
           ×
         </button>
       </header>
 
-      <div style={{ flex: 1, overflowY: "auto", padding: "20px" }}>
+      {/* Content */}
+      <div className="flex-1 overflow-y-auto px-6 py-5">
+        {state.status === "idle" && null}
+
         {state.status === "loading" && (
-          <div style={{ color: "#94a3b8" }}>Loading...</div>
+          <div className="text-gray-400 text-sm">Loading…</div>
         )}
 
         {state.status === "error" && (
           <div>
-            <p style={{ color: "#fca5a5", marginBottom: 12 }}>{state.message}</p>
+            <p className="text-red-400 text-sm mb-3">{state.message}</p>
             <button
               onClick={() => setRetryCount((c) => c + 1)}
-              style={{
-                background: "none",
-                border: "1px solid rgba(148, 163, 184, 0.35)",
-                borderRadius: 8,
-                color: "#94a3b8",
-                cursor: "pointer",
-                padding: "6px 14px",
-              }}
+              className="text-sm text-gray-500 border border-gray-200 rounded-lg px-3 py-1.5 hover:border-gray-300 transition-colors cursor-pointer bg-transparent"
             >
               Retry
             </button>
@@ -107,18 +90,10 @@ export function TopicPanel({ roadmapSlug, topicSlug, onClose }: TopicPanelProps)
 
         {state.status === "ready" && (
           <>
-            <h2
-              style={{
-                fontSize: "clamp(1.25rem, 2vw, 1.75rem)",
-                lineHeight: 1.2,
-                marginBottom: 10,
-              }}
-            >
+            <h2 className="text-xl font-semibold text-gray-900 leading-snug mb-2">
               {state.content.topic.title}
             </h2>
-            <p
-              style={{ color: "#94a3b8", fontSize: 15, lineHeight: 1.6, marginBottom: 20 }}
-            >
+            <p className="text-sm text-gray-500 leading-relaxed mb-5">
               {state.content.topic.summary}
             </p>
             <TopicContent assets={state.content.assets} />

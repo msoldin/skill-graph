@@ -3,29 +3,32 @@ import ReactMarkdown from "react-markdown";
 import type { TopicAsset } from "@/lib/types";
 
 export function TopicContent({ assets }: { assets: TopicAsset[] }) {
-  const orderedAssets = [...assets].sort((left, right) => {
-    if (left.sortOrder !== right.sortOrder) {
-      return left.sortOrder - right.sortOrder;
-    }
-    return left.title.localeCompare(right.title);
+  const orderedAssets = [...assets].sort((a, b) => {
+    if (a.sortOrder !== b.sortOrder) return a.sortOrder - b.sortOrder;
+    return a.title.localeCompare(b.title);
   });
 
   if (orderedAssets.length === 0) {
     return (
-      <section style={{ border: "1px dashed rgba(148, 163, 184, 0.28)", borderRadius: 20, padding: 24, color: "#94a3b8" }}>
+      <section className="border border-dashed border-gray-200 rounded-2xl p-6 text-gray-400 text-sm">
         No study assets are attached to this topic yet.
       </section>
     );
   }
 
   return (
-    <div style={{ display: "grid", gap: 18 }}>
+    <div className="flex flex-col gap-5">
       {orderedAssets.map((asset) => {
         if (asset.type === "markdown" && asset.body) {
           return (
-            <article key={asset.id} style={{ background: "rgba(15, 23, 42, 0.72)", border: "1px solid rgba(148, 163, 184, 0.18)", borderRadius: 24, padding: 24 }}>
-              <div style={{ color: "#38bdf8", fontSize: 12, textTransform: "uppercase", letterSpacing: 0.6 }}>{asset.title}</div>
-              <div style={{ marginTop: 16, lineHeight: 1.7 }}>
+            <article
+              key={asset.id}
+              className="border border-gray-100 rounded-2xl p-5"
+            >
+              <div className="text-xs font-medium uppercase tracking-wider text-blue-500 mb-3">
+                {asset.title}
+              </div>
+              <div className="prose prose-gray prose-sm max-w-none">
                 <ReactMarkdown>{asset.body}</ReactMarkdown>
               </div>
             </article>
@@ -34,18 +37,33 @@ export function TopicContent({ assets }: { assets: TopicAsset[] }) {
 
         if (asset.type === "pdf" && asset.url) {
           return (
-            <article key={asset.id} style={{ background: "rgba(15, 23, 42, 0.72)", border: "1px solid rgba(148, 163, 184, 0.18)", borderRadius: 24, padding: 24 }}>
-              <div style={{ color: "#34d399", fontSize: 12, textTransform: "uppercase", letterSpacing: 0.6 }}>PDF</div>
-              <h2 style={{ marginBottom: 10 }}>{asset.title}</h2>
-              <a href={asset.url} target="_blank" rel="noreferrer" style={{ color: "#e2e8f0", textDecoration: "underline" }}>
-                Open PDF asset
+            <article
+              key={asset.id}
+              className="border border-gray-100 rounded-2xl p-5"
+            >
+              <div className="text-xs font-medium uppercase tracking-wider text-emerald-600 mb-2">
+                PDF
+              </div>
+              <h2 className="text-base font-semibold text-gray-900 mb-2">
+                {asset.title}
+              </h2>
+              <a
+                href={asset.url}
+                target="_blank"
+                rel="noreferrer"
+                className="text-sm text-blue-600 hover:underline"
+              >
+                Open PDF asset →
               </a>
             </article>
           );
         }
 
         return (
-          <article key={asset.id} style={{ background: "rgba(69, 10, 10, 0.4)", border: "1px solid rgba(248, 113, 113, 0.35)", borderRadius: 24, padding: 24, color: "#fecaca" }}>
+          <article
+            key={asset.id}
+            className="border border-red-200 rounded-2xl p-5 bg-red-50 text-red-500 text-sm"
+          >
             Unsupported or incomplete asset: {asset.title}
           </article>
         );

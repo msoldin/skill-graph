@@ -188,14 +188,14 @@ export function RoadmapCanvas({
         edges={state.edges}
         nodeTypes={nodeTypes}
         onNodeClick={(_, node) => openTopic(node.data.topicSlug)}
-        onPaneClick={closeTopic}
+        onPaneClick={selectedTopicSlug ? closeTopic : undefined}
         proOptions={{ hideAttribution: true }}
       >
         <Background color="rgba(148, 163, 184, 0.18)" gap={28} />
         <Controls showInteractive={false} />
       </ReactFlow>
     );
-  }, [state, openTopic, closeTopic]);
+  }, [state, openTopic, closeTopic, selectedTopicSlug]);
 
   return (
     <section

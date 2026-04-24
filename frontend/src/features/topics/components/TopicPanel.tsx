@@ -50,13 +50,14 @@ export function TopicPanel({
 
   return (
     <aside
-      className={`absolute top-0 right-0 h-full z-20 w-[480px] max-w-full bg-white border-l border-gray-200 shadow-2xl flex flex-col transition-transform duration-300 ease-in-out ${
+      className={`absolute top-0 right-0 h-full z-20 w-[480px] max-w-full bg-[#faf9f7] border-l-2 border-gray-200 flex flex-col transition-transform duration-300 ease-in-out ${
         isOpen ? "translate-x-0" : "translate-x-full"
       }`}
+      style={{ boxShadow: "-4px 0 24px rgba(0,0,0,0.10)" }}
     >
       {/* Header */}
       <header className="flex items-center justify-between px-6 py-4 border-b border-gray-100 shrink-0">
-        <span className="text-xs font-medium uppercase tracking-wider text-blue-500">
+        <span className="text-xs font-medium uppercase tracking-wider text-blue-600">
           Topic
         </span>
         <button

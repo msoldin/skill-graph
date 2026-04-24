@@ -31,19 +31,7 @@ export default async function RoadmapsPage() {
             <Link
               key={roadmap.slug}
               href={`/roadmaps/${roadmap.slug}`}
-              className="group block bg-white rounded-2xl p-6 transition-all"
-              style={{ boxShadow: "0 4px 16px rgba(0,0,0,0.09)" }}
-              onMouseEnter={(e) => {
-                (e.currentTarget as HTMLElement).style.boxShadow =
-                  "0 6px 24px rgba(0,0,0,0.15)";
-                (e.currentTarget as HTMLElement).style.transform =
-                  "translateY(-1px)";
-              }}
-              onMouseLeave={(e) => {
-                (e.currentTarget as HTMLElement).style.boxShadow =
-                  "0 4px 16px rgba(0,0,0,0.09)";
-                (e.currentTarget as HTMLElement).style.transform = "";
-              }}
+            className="group block bg-white rounded-2xl p-6 catalog-card"
             >
               <div className="flex items-start justify-between gap-2">
                 <h2 className="text-base font-semibold text-gray-950 leading-snug">

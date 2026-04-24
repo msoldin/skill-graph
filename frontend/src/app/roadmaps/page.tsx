@@ -8,34 +8,46 @@ export default async function RoadmapsPage() {
   const roadmaps = await getRoadmaps();
 
   return (
-    <main style={{ maxWidth: 1100, margin: "0 auto", padding: "56px 24px 96px" }}>
-      <header style={{ maxWidth: 720 }}>
-        <div style={{ color: "#38bdf8", fontSize: 12, letterSpacing: 1.1, textTransform: "uppercase" }}>Skill Graph MVP</div>
-        <h1 style={{ fontSize: "clamp(2.5rem, 5vw, 4.25rem)", lineHeight: 1.05, marginBottom: 16 }}>Roadmaps that connect concepts to actual study assets.</h1>
-        <p style={{ color: "#94a3b8", fontSize: 18, lineHeight: 1.6 }}>
-          Browse curated learning paths, inspect the dependency graph, and jump straight into roadmap-scoped notes and references.
-        </p>
-      </header>
+    <div className="min-h-screen bg-white">
+      {/* Top nav */}
+      <nav className="border-b border-gray-100 px-6 py-3">
+        <span className="text-sm font-semibold text-gray-900">Skill Graph</span>
+      </nav>
 
-      <section style={{ marginTop: 40, display: "grid", gap: 20 }}>
-        {roadmaps.map((roadmap) => (
-          <Link
-            key={roadmap.slug}
-            href={`/roadmaps/${roadmap.slug}`}
-            style={{
-              display: "block",
-              padding: 24,
-              borderRadius: 26,
-              border: "1px solid rgba(148, 163, 184, 0.18)",
-              background: "rgba(15, 23, 42, 0.75)",
-              boxShadow: "0 20px 60px rgba(2, 6, 23, 0.24)"
-            }}
-          >
-            <div style={{ fontSize: 28, fontWeight: 700 }}>{roadmap.title}</div>
-            <p style={{ margin: "10px 0 0", color: "#94a3b8", lineHeight: 1.6 }}>{roadmap.description}</p>
-          </Link>
-        ))}
-      </section>
-    </main>
+      {/* Main content */}
+      <main className="max-w-5xl mx-auto px-6 py-16">
+        <header className="mb-10">
+          <h1 className="text-3xl font-bold text-gray-900 mb-2">
+            Learning Roadmaps
+          </h1>
+          <p className="text-gray-500 text-base leading-relaxed max-w-xl">
+            Browse curated learning paths, inspect the dependency graph, and jump
+            straight into roadmap-scoped notes and references.
+          </p>
+        </header>
+
+        <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+          {roadmaps.map((roadmap) => (
+            <Link
+              key={roadmap.slug}
+              href={`/roadmaps/${roadmap.slug}`}
+              className="group block bg-white border border-gray-200 rounded-2xl p-6 hover:border-blue-300 hover:shadow-md transition-all"
+            >
+              <div className="flex items-start justify-between gap-2">
+                <h2 className="text-base font-semibold text-gray-900 leading-snug">
+                  {roadmap.title}
+                </h2>
+                <span className="text-gray-300 group-hover:text-blue-400 transition-colors text-lg shrink-0 mt-0.5">
+                  →
+                </span>
+              </div>
+              <p className="mt-2 text-sm text-gray-500 leading-relaxed line-clamp-2">
+                {roadmap.description}
+              </p>
+            </Link>
+          ))}
+        </section>
+      </main>
+    </div>
   );
 }

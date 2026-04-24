@@ -8,19 +8,19 @@ export default async function RoadmapsPage() {
   const roadmaps = await getRoadmaps();
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-[#f0ede8]">
       {/* Top nav */}
-      <nav className="border-b border-gray-100 px-6 py-3">
+      <nav className="bg-white border-b border-gray-200 px-6 py-3 shadow-sm">
         <span className="text-sm font-semibold text-gray-900">Skill Graph</span>
       </nav>
 
       {/* Main content */}
       <main className="max-w-5xl mx-auto px-6 py-16">
         <header className="mb-10">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">
+          <h1 className="text-3xl font-bold text-gray-950 mb-2">
             Learning Roadmaps
           </h1>
-          <p className="text-gray-500 text-base leading-relaxed max-w-xl">
+          <p className="text-gray-600 text-base leading-relaxed max-w-xl">
             Browse curated learning paths, inspect the dependency graph, and jump
             straight into roadmap-scoped notes and references.
           </p>
@@ -31,13 +31,25 @@ export default async function RoadmapsPage() {
             <Link
               key={roadmap.slug}
               href={`/roadmaps/${roadmap.slug}`}
-              className="group block bg-white border border-gray-200 rounded-2xl p-6 hover:border-blue-300 hover:shadow-md transition-all"
+              className="group block bg-white rounded-2xl p-6 transition-all"
+              style={{ boxShadow: "0 4px 16px rgba(0,0,0,0.09)" }}
+              onMouseEnter={(e) => {
+                (e.currentTarget as HTMLElement).style.boxShadow =
+                  "0 6px 24px rgba(0,0,0,0.15)";
+                (e.currentTarget as HTMLElement).style.transform =
+                  "translateY(-1px)";
+              }}
+              onMouseLeave={(e) => {
+                (e.currentTarget as HTMLElement).style.boxShadow =
+                  "0 4px 16px rgba(0,0,0,0.09)";
+                (e.currentTarget as HTMLElement).style.transform = "";
+              }}
             >
               <div className="flex items-start justify-between gap-2">
-                <h2 className="text-base font-semibold text-gray-900 leading-snug">
+                <h2 className="text-base font-semibold text-gray-950 leading-snug">
                   {roadmap.title}
                 </h2>
-                <span className="text-gray-300 group-hover:text-blue-400 transition-colors text-lg shrink-0 mt-0.5">
+                <span className="text-gray-300 group-hover:text-blue-500 transition-colors text-lg shrink-0 mt-0.5">
                   →
                 </span>
               </div>
